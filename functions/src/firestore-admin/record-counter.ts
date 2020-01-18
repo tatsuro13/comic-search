@@ -1,0 +1,18 @@
+import admin from 'firebase-admin';
+import { collectionName } from '../services/comic_search/constants';
+
+export const addCounter = async (
+  db: admin.firestore.Firestore,
+  collName: string,
+  count = 1,
+) => {
+  const doc = db.collection(collectionName.docCounters).doc(collName);
+  await doc.set(
+    {
+      couont: admin.firestore.FieldValue.increment(count),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    },
+    { merge: true }
+  )
+}
+

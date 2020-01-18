@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "lib": ["dom", "ensext"],
+    "lib": ["dom", "esnext"],
     "module": "commonjs",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
