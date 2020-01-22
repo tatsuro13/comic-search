@@ -4,7 +4,7 @@ import { collectionName } from '../services/comic_search/constants';
 export const addCounter = async (
   db: admin.firestore.Firestore,
   collName: string,
-  count = 1,
+  count = 1
 ) => {
   const doc = db.collection(collectionName.docCounters).doc(collName);
   await doc.set(
@@ -12,6 +12,6 @@ export const addCounter = async (
       count: admin.firestore.FieldValue.increment(count),
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     },
-    { merge: true },
+    { merge: true }
   );
 };

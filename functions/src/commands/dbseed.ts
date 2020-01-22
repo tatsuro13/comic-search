@@ -1,13 +1,13 @@
 import commander from 'commander';
 import admin from 'firebase-admin';
 import fs from 'fs';
-import parse from 'csv-parse/lib/sync'
+import parse from 'csv-parse/lib/sync';
 
 import { Publisher } from '../services/comic_search/models/publisher';
 import { collectionName } from '../services/comic_search/constants';
 import { addCounter } from '../firestore-admin/record-counter';
 
-import serviceAccount from '../manga-search13-firebase-adminsdk-5xjpo-411003f558.json'
+import serviceAccount from '../manga-search13-firebase-adminsdk-5xjpo-411003f558.json';
 
 admin.initializeApp({
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
