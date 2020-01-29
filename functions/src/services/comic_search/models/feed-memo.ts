@@ -18,5 +18,5 @@ export const blankFeedMemo: FeedMemo = {
   releaseDate: null,
   isbn: null,
   fetchedAt: null,
-  createdAt: null
-}
+  createdAt: null,
+};

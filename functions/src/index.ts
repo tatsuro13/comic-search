@@ -3,7 +3,7 @@ import admin from 'firebase-admin';
 import puppeteer from 'puppeteer';
 
 import { collectionName } from './services/comic_search/constants';
-import { feedCalender } from './crawlers/kodansha-calender';
+import { feedCalendar } from './crawlers/kodansha-calendar';
 import { saveFeedMemo } from './firestore-admin/feed-memo';
 
 const PUPPETEER_OPTIONS = {
@@ -32,7 +32,7 @@ export const publishers = functions
     res.send({ data });
   });
 
-export const feedCalender = functions
+export const fetchCalendar = functions
   .region('asia-northeast1')
   .runWith({
     timeoutSeconds: 300,
@@ -44,7 +44,7 @@ export const feedCalender = functions
     const page = await browser.newPage();
     const db = admin.firestore();
 
-    const memos = await feedCalender(page);
+    const memos = await feedCalendar(page);
     const fetchCount = await saveFeedMemo(db, memos, 'kodansha');
 
     await browser.close();
