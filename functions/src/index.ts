@@ -1,28 +1,27 @@
 import * as functions from 'firebase-functions';
 import admin from 'firebase-admin';
-import { subDays } from 'date-fns';
 import puppeteer from 'puppeteer';
+import { subDays } from 'date-fns';
 
 import { collectionName } from './services/comic_search/constants';
 import { FeedMemo } from './services/comic_search/models/feed-memo';
 import { findBookItem } from './services/rakuten/api';
-import { findPublisher } from './firestore-admin/publisher';
-import { findOrCreateAuthors } from './firestore-admin/author';
-import { createBook } from './firestore-admin/book';
-import { sleep } from './utils/timer';
 import { feedCalendar } from './crawlers/kodansha-calendar';
 import { saveFeedMemo } from './firestore-admin/feed-memo';
+import { findOrCreateAuthors } from './firestore-admin/author';
+import { findPublisher } from './firestore-admin/publisher';
+import { createBook } from './firestore-admin/book';
+import { sleep } from './utils/timer';
 
 const RAKUTEN_APP_ID = '1040997283113074154';
-
 const PUPPETEER_OPTIONS = {
   args: [
     '--disable-gpu',
-    '--disable-dev-shm-usage',
-    '--disable-sandbox',
+    '-–disable-dev-shm-usage',
+    '--disable-setuid-sandbox',
     '--no-first-run',
-    '--no-first-sandbox',
-    '--no-first-zygote',
+    '--no-sandbox',
+    '--no-zygote',
     '--single-process',
   ],
   headless: true,
@@ -47,7 +46,8 @@ export const fetchCalendar = functions
     timeoutSeconds: 300,
     memory: '2GB',
   })
-  .pubsub.schedule('0 2 1, 10,20 * *')
+  .pubsub.schedule('0 2 1,10,20 * *')
+  .timeZone('Asia/Tokyo')
   .onRun(async () => {
     const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
     const page = await browser.newPage();
@@ -66,14 +66,15 @@ export const registerBooks = functions
     timeoutSeconds: 500,
     memory: '1GB',
   })
-  .pubsub.schedule('5,10,15 2 1, 10,20 * *')
+  .pubsub.schedule('5,10,15 2 1,10,20 * *')
   .timeZone('Asia/Tokyo')
   .onRun(async () => {
     const db = admin.firestore();
     const yesterday = subDays(new Date(), 1);
     const snap = await db
       .collection(collectionName.feedMemos)
-      .where('fetchAt', '<', yesterday)
+      .where('isbn', '==', null)
+      .where('fetchedAt', '<', yesterday)
       .limit(200)
       .get();
     let count = 0;
@@ -94,12 +95,12 @@ export const registerBooks = functions
         const book = await createBook(db, memo, bookItem, authors, publisher);
         await doc.ref.update({
           isbn: book.isbn,
-          fetchAt: admin.firestore.FieldValue.serverTimestamp(),
+          fetchedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
         count += 1;
       } else {
         await doc.ref.update({
-          fetchAt: admin.firestore.FieldValue.serverTimestamp(),
+          fetchedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
       }
       await sleep(1000);
