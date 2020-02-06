@@ -1,7 +1,7 @@
 export const halfWiden = (text: string) =>
   text
     .replace(/[！-～]/g, match =>
-      String.fromCharCode(match.charCodeAt(0) - 0xfee0),
+      String.fromCharCode(match.charCodeAt(0) - 0xfee0)
     )
     .replace(/[“”]/g, '"')
     .replace(/’/g, "'")
@@ -13,7 +13,7 @@ export const halfWiden = (text: string) =>
 
 export const hira2kata = (text: string) =>
   text.replace(/[\u3041-\u3096]/g, match =>
-    String.fromCharCode(match.charCodeAt(0) + 0x60),
+    String.fromCharCode(match.charCodeAt(0) + 0x60)
   );
 
 export const kanaFullWiden = (text: string) => {

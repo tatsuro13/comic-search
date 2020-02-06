@@ -1,5 +1,8 @@
 import puppeteer from 'puppeteer';
-import { FeedMemo, blankFeedMemo } from '../services/comic_search/models/feed-memo';
+import {
+  FeedMemo,
+  blankFeedMemo,
+} from '../services/comic_search/models/feed-memo';
 
 export const feedCalendar = async (page: puppeteer.Page) => {
   const url = 'http://kc.kodansha.co.jp/calendar';

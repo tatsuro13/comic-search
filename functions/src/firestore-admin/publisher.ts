@@ -6,7 +6,7 @@ import { Publisher } from '../services/comic_search/models/publisher';
 
 export const findPublisher = async (
   db: admin.firestore.Firestore,
-  id: string,
+  id: string
 ) => {
   const doc = await db
     .collection(collectionName.publishers)

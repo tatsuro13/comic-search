@@ -6,7 +6,7 @@ import { FeedMemo } from '../services/comic_search/models/feed-memo';
 export const saveFeedMemo = async (
   db: admin.firestore.Firestore,
   memos: FeedMemo[],
-  publisher: string,
+  publisher: string
 ) => {
   const memoRef = db.collection(collectionName.feedMemos);
   const query = await memoRef.where('publisher', '==', publisher).get();
@@ -25,5 +25,6 @@ export const saveFeedMemo = async (
       count += 1;
     }
   }
+
   return count;
-}
+};

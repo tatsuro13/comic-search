@@ -15,7 +15,7 @@ export const createBook = async (
   memo: FeedMemo,
   bookItem: BookItem,
   authors: Author[],
-  publisher: Publisher,
+  publisher: Publisher
 ) => {
   const { title, titleKana, isbn, itemUrl, largeImageUrl } = bookItem;
   const match = itemUrl.match(/books.rakuten.co.jp\/rb\/(\d+)/);

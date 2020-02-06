@@ -86,7 +86,7 @@ export const registerBooks = functions
 
       const bookItem = await findBookItem(
         { title, publisherName },
-        RAKUTEN_APP_ID,
+        RAKUTEN_APP_ID
       );
 
       if (bookItem) {

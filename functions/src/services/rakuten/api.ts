@@ -22,7 +22,7 @@ const defaultSearchParams: SearchParams = {
 
 export const findBookItem = async (
   params: SearchParams,
-  applicationId: string,
+  applicationId: string
 ) => {
   const searchParams: SearchParams = { ...defaultSearchParams, ...params };
   const queries = new URLSearchParams();

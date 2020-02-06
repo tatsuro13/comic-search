@@ -9,7 +9,7 @@ import { normalize, uniform } from '../utils/text-processor';
 
 export const findOrCreateAuthors = async (
   db: admin.firestore.Firestore,
-  bookItem: BookItem,
+  bookItem: BookItem
 ) => {
   const authorsRef = db.collection(collectionName.authors);
   const authorNames = bookItem.author.split('/');
